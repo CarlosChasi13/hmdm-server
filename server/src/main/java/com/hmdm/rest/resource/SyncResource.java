@@ -395,10 +395,6 @@ public class SyncResource {
         System.out.println("Kiosk Mode set to: " + configuration.isKioskMode());
 
         if (data.isKioskMode()) {
-            // Mostrar que el modo kiosko está activado
-            System.out.println("Kiosk Mode is enabled");
-
-            // Obtener el ID de la aplicación de contenido y mostrarlo
             Integer contentAppId = configuration.getContentAppId();
             System.out.println("Content App ID: " + contentAppId);
 
@@ -409,18 +405,15 @@ public class SyncResource {
                         + (applicationVersion != null ? applicationVersion.toString() : "No version found"));
 
                 if (applicationVersion != null) {
-                    // Buscar la aplicación y mostrar el nombre del paquete
-                    Application application = this.unsecureDAO
-                            .findApplicationById(applicationVersion.getApplicationId());
-                    System.out.println("Application Package: "
-                            + (application != null ? application.getPkg() : "Application not found"));
-
-                    // Establecer la aplicación principal y mostrar el paquete
+                    Application application = this.unsecureDAO.findApplicationById(applicationVersion.getApplicationId());
                     data.setMainApp(application.getPkg());
                     System.out.println("Main App set to: " + application.getPkg());
                 }
             }
         }
+        
+        data.setWifi(false);  // Bloquea el acceso a la configuración de Wi-Fi
+        data.setBluetooth(false);  // Bloquea el acceso a la configuración de Bluetooth
 
         data.setKioskHome(configuration.getKioskHome() != null && configuration.getKioskHome() ? true : null);
         data.setKioskRecents(configuration.getKioskRecents() != null && configuration.getKioskRecents() ? true : null);
