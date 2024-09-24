@@ -311,7 +311,7 @@ angular.module('headwind-kiosk')
         function ($scope, configurationService, settingsService, $stateParams, $state, $rootScope, $window, $timeout,
                   $transitions, localization, confirmModal, alertService, $modal, appVersionComparisonService, settingsService) {
 
-            
+            console.log("Llegò a controller('ConfigurationEditorController'")
             $scope.successMessage = null;
             
             $scope.configuration = {
@@ -709,6 +709,7 @@ angular.module('headwind-kiosk')
             
 
             $scope.save = function (doClose) {
+                //console.log("Llegò a save close");
                 $scope.errorMessage = '';
                 $scope.saved = false;
 
@@ -719,11 +720,13 @@ angular.module('headwind-kiosk')
                 } else if (!$scope.configuration.password) {
                     $scope.errorMessage = localization.localize('error.empty.configuration.password');
                 } else if ($scope.configuration.kioskMode && (!contentAppSelected)) {
-                    $scope.errorMessage = localization.localize('error.empty.configuration.contentApp');
+                    $scope.errorMessage = localization.localize('Fallado exitosamente');
+                    $scope.logKioskMode();
+                    $scope.errorMessage = localization.localize($scope.configuration.kioskMode)
+                    $scope.printKioskModeConfig();
                 } else {
 
-                    $scope.logKioskMode();
-                    $scope.printKioskModeConfig();
+                    
 
                     var request = {};
 
@@ -840,6 +843,21 @@ angular.module('headwind-kiosk')
                     });
                 }
             };
+            $scope.printKioskModeConfig = function() {
+                let kioskConfig = `
+                    Kiosk Mode: ${$scope.configuration.kioskMode}
+                    Kiosk Home: ${$scope.configuration.kioskHome}
+                    Kiosk Recents: ${$scope.configuration.kioskRecents}
+                    Kiosk Notifications: ${$scope.configuration.kioskNotifications}
+                    Kiosk System Info: ${$scope.configuration.kioskSystemInfo}
+                    Kiosk Keyguard: ${$scope.configuration.kioskKeyguard}
+                    Kiosk Lock Buttons: ${$scope.configuration.kioskLockButtons}
+                    Kiosk Exit: ${$scope.configuration.kioskExit}
+                `;
+                alert(kioskConfig);  // Mensaje de alerta con la configuración
+            };
+
+
 
             $scope.close = function () {
                 $state.transitionTo('configurations');
