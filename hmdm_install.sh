@@ -472,7 +472,7 @@ if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     CURRENT_DIR=$(pwd)
     cd $LOCATION/files
     for FILE in $FILES; do
-        echo "Downloading $FILE..."
+        echo "Downloading https://h-mdm.com/files/hmdm-5.19-os.apk..."
 	wget https://h-mdm.com/files/hmdm-5.19-os.apk
     done
     chown $TOMCAT_USER:$TOMCAT_USER *
